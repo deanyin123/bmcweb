@@ -201,7 +201,7 @@ class ChassisCollection : public Node
                 chassisArray = nlohmann::json::array();
                 for (const std::string &objpath : chassisList)
                 {
-                    std::cout << "objpath=" << objpath << std::endl;
+                    asyncResp->res.jsonValue["objpath"] = objpath;
                     std::size_t lastPos = objpath.rfind("/");
                     if (lastPos == std::string::npos)
                     {
