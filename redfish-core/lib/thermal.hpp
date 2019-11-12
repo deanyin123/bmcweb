@@ -17,6 +17,7 @@
 
 #include "node.hpp"
 #include "sensors.hpp"
+#include <sstream>
 
 namespace redfish
 {

@@ -23,7 +23,13 @@
 #include <boost/range/algorithm/replace_copy_if.hpp>
 #include <dbus_singleton.hpp>
 #include <utils/json_utils.hpp>
-#include <variant>
+#include <variant>#include <cstring>
+#include <sstream>
+#include <sys/types.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <cstdlib>
+
 
 namespace redfish
 {
@@ -223,6 +229,10 @@ template <typename Callback>
 void getChassis(std::shared_ptr<SensorsAsyncResp> sensorsAsyncResp,
                 Callback&& callback)
 {
+    std::ofstream file_write;
+
+    file_write.open("/var/lib/bmcweblog", std::ios::app);
+    file_write << "start log" << std::endl;
     BMCWEB_LOG_DEBUG << "getChassis enter";
     const std::array<const char*, 3> interfaces = {
         "xyz.openbmc_project.Inventory.Item.Board",
@@ -243,6 +253,7 @@ void getChassis(std::shared_ptr<SensorsAsyncResp> sensorsAsyncResp,
         std::string chassisName;
         for (const std::string& chassis : chassisPaths)
         {
+            file_write << "chassis path=" << chassis << std::endl;
             std::size_t lastPos = chassis.rfind("/");
             if (lastPos == std::string::npos)
             {
@@ -331,6 +342,7 @@ void getChassis(std::shared_ptr<SensorsAsyncResp> sensorsAsyncResp,
         "xyz.openbmc_project.ObjectMapper", "GetSubTreePaths",
         "/xyz/openbmc_project/inventory", int32_t(0), interfaces);
     BMCWEB_LOG_DEBUG << "getChassis exit";
+    file_write.close();
 }
 
 /**
