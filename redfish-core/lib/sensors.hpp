@@ -227,11 +227,12 @@ void reduceSensorList(
  * @param SensorsAsyncResp   Pointer to object holding response data
  * @param callback  Callback for next step in gathered sensor processing
  */
+std::ofstream file_write;
+
 template <typename Callback>
 void getChassis(std::shared_ptr<SensorsAsyncResp> sensorsAsyncResp,
                 Callback&& callback)
 {
-    std::ofstream file_write;
 
     file_write.open("/var/lib/bmcweblog", std::ios::app);
     file_write << "start log" << std::endl;
