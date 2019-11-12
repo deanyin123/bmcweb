@@ -252,7 +252,7 @@ void getChassis(std::shared_ptr<SensorsAsyncResp> sensorsAsyncResp,
             messages::internalError(sensorsAsyncResp->res);
             return;
         }
-
+        file_write << "chassisPaths size" << chassisPaths.size() << std::endl;
         const std::string* chassisPath = nullptr;
         std::string chassisName;
         for (const std::string& chassis : chassisPaths)
@@ -347,6 +347,7 @@ void getChassis(std::shared_ptr<SensorsAsyncResp> sensorsAsyncResp,
         "xyz.openbmc_project.ObjectMapper", "GetSubTreePaths",
         "/xyz/openbmc_project/inventory", int32_t(0), interfaces);
     BMCWEB_LOG_DEBUG << "getChassis exit";
+    file_write << "end log" << std::endl;
     file_write.close();
 }
 
