@@ -236,6 +236,7 @@ void getChassis(std::shared_ptr<SensorsAsyncResp> sensorsAsyncResp,
 
     file_write.open("/var/lib/bmcweblog", std::ios::app);
     file_write << "start log" << std::endl;
+
     BMCWEB_LOG_DEBUG << "getChassis enter";
     const std::array<const char*, 3> interfaces = {
         "xyz.openbmc_project.Inventory.Item.Board",
@@ -264,6 +265,7 @@ void getChassis(std::shared_ptr<SensorsAsyncResp> sensorsAsyncResp,
                 continue;
             }
             chassisName = chassis.substr(lastPos + 1);
+            file_write << "sensorsAsyncResp->chassisId" << sensorsAsyncResp->chassisId << std::endl;
             if (chassisName == sensorsAsyncResp->chassisId)
             {
                 chassisPath = &chassis;
